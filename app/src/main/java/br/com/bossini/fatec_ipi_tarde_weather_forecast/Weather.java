@@ -41,7 +41,7 @@ public class Weather {
         agora.add(Calendar.MILLISECOND,
                 fusoHorario.getOffset(agora.getTimeInMillis()));
         SimpleDateFormat sdf =
-                new SimpleDateFormat("EEEE");
+                new SimpleDateFormat("EE, HH:mm");
         return sdf.format(agora.getTime());
     }
 }

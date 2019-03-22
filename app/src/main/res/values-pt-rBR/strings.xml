@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" >fatec_ipi_tarde_weather_forecast</string>
+    <string name="action_settings">Configurações</string>
+    <string name="invalid_url">URL Inválida</string>
+    <string name="weather_condition_image">Representação gráfica de condições climáticas</string>
+    <string name="high_temp">Max: %s</string>
+    <string name="low_temp">Min: %s</string>
+    <string name="humidity">Humidade: %s</string>
+    <string name="hint_text">Digite o nome da cidade</string>
+    <string name="read_error">Impossível obter dados</string>
+    <string name="connect_error">Impossível conectar-se ao servidor</string>
+    <string name="lang">pt</string>
+</resources>

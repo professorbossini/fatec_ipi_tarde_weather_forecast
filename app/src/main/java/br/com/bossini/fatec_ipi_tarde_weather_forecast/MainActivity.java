@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         getEditableText().toString();
             try {
                 URL url = montarURL(cidade);
+                new GetWeatherTask().execute(url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 Toast.makeText(this,
@@ -66,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
     private class GetWeatherTask extends
             AsyncTask <URL, Void, Void>{
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            weatherArrayAdapter.notifyDataSetChanged();
+        }
+
         @Override
         protected Void doInBackground(URL... urls) {
             URL endereco = urls[0];
@@ -86,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                             new JSONObject(resultado.toString());
                     JSONArray list =
                             resultadoPrincipal.getJSONArray("list");
+                    weatherList.clear();
                     for (int i = 0; i < list.length(); i++){
                         JSONObject iesimo = list.getJSONObject(i);
                         long dt = iesimo.getLong("dt");
@@ -126,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         String endereco =
                 getString(
                         R.string.web_service_url,
+                        getString(R.string.lang),
                         cidade,
                         getString(R.string.api_key)
                 );

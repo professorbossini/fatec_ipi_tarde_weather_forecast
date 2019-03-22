@@ -31,49 +31,67 @@ public class WeatherArrayAdapter
         super (context, -1, previsoes);
     }
 
+    private class ViewHolder{
+        public ImageView conditionImageView;
+        public TextView dayTextView;
+        public TextView lowTextView;
+        public TextView highTextView;
+        public TextView humidityTextView;
+    }
+
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Weather caraDaVez = getItem(position);
-        LayoutInflater inflater =
-                LayoutInflater.from(getContext());
-        View caixa = inflater.inflate(R.layout.list_item, parent, false);
-        TextView dayTextView = caixa.findViewById(R.id.dayTextView);
-        TextView lowTextView = caixa.findViewById(R.id.lowTextView);
-        TextView highTextView = caixa.findViewById(R.id.highTextView);
-        TextView humidityTextView = caixa.findViewById(R.id.humidityTextView);
-        ImageView conditionImageView
-                = caixa.findViewById(R.id.conditionImageView);
+        ViewHolder vh = null;
+        //a caixa ainda não existe?
+        if (convertView == null){
+            //ela ainda não existe...
+            LayoutInflater inflater =
+                    LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
+            vh = new ViewHolder();
+            vh.dayTextView = convertView.findViewById(R.id.dayTextView);
+            vh.lowTextView = convertView.findViewById(R.id.lowTextView);
+            vh.highTextView = convertView.findViewById(R.id.highTextView);
+            vh.humidityTextView = convertView.findViewById(R.id.humidityTextView);
+            vh.conditionImageView
+                    = convertView.findViewById(R.id.conditionImageView);
+            convertView.setTag(vh);
+
+        }
+        vh = (ViewHolder) convertView.getTag();
+
         if (figuras.containsKey(caraDaVez.iconURL)){
-            conditionImageView.
+            vh.conditionImageView.
                     setImageBitmap(figuras.get(caraDaVez.iconURL));
         }
         else{
-            new LoadImageTask(conditionImageView).
+            new LoadImageTask(vh.conditionImageView).
                     execute(caraDaVez.iconURL);
         }
-        dayTextView.setText(
+        vh.dayTextView.setText(
                 getContext().
                         getString(R.string.day_description,
                                 caraDaVez.dayOfWeek,
                                 caraDaVez.description));
-        lowTextView.setText(
+        vh.lowTextView.setText(
                 getContext().
                         getString(R.string.low_temp,
                                 caraDaVez.minTemp));
 
-        highTextView.setText(
+        vh.highTextView.setText(
                 getContext().
                         getString(
                                 R.string.high_temp,
                                 caraDaVez.maxTemp));
-        humidityTextView.setText(
+        vh.humidityTextView.setText(
                 getContext().
                         getString(
                                 R.string.humidity,
                                 caraDaVez.humidity
                         )
         );
-        return caixa;
+        return convertView;
     }
 
     private class LoadImageTask extends
